@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div id="app" class="checkout-container">
+    <h1>Checkout</h1>
+    <div class="cart-summary">
+        <h2>Order Summary</h2>
+        <ul>
+            <li v-for="item in cartItems" :key="item.id">
+                [[ item.name ]] (x[[ item.quantity ]]) - DZD[[ (item.price * item.quantity).toFixed(2) ]]
+            </li>
+        </ul>
+        <p>Total: DZD[[ cartTotal.toFixed(2) ]]</p>
+    </div>
+    <form method="POST" @submit="submitOrder">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.surname.label }}
+            {{ form.surname(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.phone.label }}
+            {{ form.phone(class="form-control") }}
+        </div>
+        <input type="hidden" name="cart" :value="JSON.stringify(cartItems)">
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+</div>
+{% endblock %}
